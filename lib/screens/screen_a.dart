@@ -15,6 +15,16 @@ class ScreenA extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Builder(builder: (context) {
+              return Hero(
+                tag: 'aa',
+                child: Container(
+                  color: Colors.redAccent,
+                  width: 30,
+                  height: 30,
+                ),
+              );
+            }),
             Text(
               toString(),
               style: const TextStyle(
@@ -25,7 +35,7 @@ class ScreenA extends StatelessWidget {
             const SizedBox(height: 10),
             TextButton(
               onPressed: () {
-                Navigator.pushReplacement(
+                Navigator.push(
                   context,
                   customPageRouteBuilder(
                     ScreenB(),

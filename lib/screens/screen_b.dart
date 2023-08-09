@@ -3,8 +3,25 @@ import 'package:flutter_cookbook_animate_a_page_route_transition/screens/screen_
 
 import '../route_builders.dart';
 
-class ScreenB extends StatelessWidget {
+class ScreenB extends StatefulWidget {
   const ScreenB({super.key});
+
+  @override
+  State<ScreenB> createState() => _ScreenBState();
+}
+
+class _ScreenBState extends State<ScreenB> {
+  bool isTransparent = true;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        isTransparent = false;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,18 +33,22 @@ class ScreenB extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              toString(),
-              style: const TextStyle(
-                fontSize: 40,
-                fontWeight: FontWeight.w600,
+            AnimatedOpacity(
+              duration: const Duration(seconds: 3),
+              opacity: isTransparent ? 0.0 : 1.0,
+              child: Text(
+                "ScreenB",
+                style: const TextStyle(
+                  fontSize: 40,
+                  fontWeight: FontWeight.w600,
+                ),
+                key: ValueKey(toString()),
               ),
-              key: ValueKey(toString()),
             ),
             const SizedBox(height: 10),
             TextButton(
               onPressed: () {
-                Navigator.pushReplacement(
+                Navigator.push(
                   context,
                   customPageRouteBuilder(
                     ScreenA(),
@@ -35,7 +56,15 @@ class ScreenB extends StatelessWidget {
                 );
               },
               child: const Text('Go to ScreenA'),
-            )
+            ),
+            Hero(
+              tag: 'aa',
+              child: Container(
+                color: Colors.blue,
+                width: 100,
+                height: 100,
+              ),
+            ),
           ],
         ),
       ),
